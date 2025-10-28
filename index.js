@@ -43,7 +43,7 @@
  * // Returns: [{ label: 'days', value: 365 }, { label: 'hours', value: 23 }, { label: 'minutes', value: 59 }]
  */
 export const getSignificantTimeParts = (times, significant) => {
-  const keys = Object.keys(times);
+  const keys = (typeof times === 'object') ? Object.keys(times) : [];
   let counter = significant;
   let nonZeroFound = false;
   const result = [];
@@ -66,7 +66,10 @@ export const getSignificantTimeParts = (times, significant) => {
     }
 
     if (orderedTimes[key] > 0 || key === "seconds" || nonZeroFound) {
-      nonZeroFound = true;
+      if (!nonZeroFound) {
+        nonZeroFound = true;
+      }
+      
       result.push({
         label: key,
         value: times[key],
